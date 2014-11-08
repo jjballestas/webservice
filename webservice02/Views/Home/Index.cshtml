@@ -1,0 +1,46 @@
+﻿<div id="body">
+    <!-- Para el Ejemplo # 2 -->
+    <ul id="contacts"></ul>
+    <!-- Fin Sección Para el Ejemplo # 2 -->
+    
+    <!-- Para el Ejemplo # 3 -->
+    <form id="saveContactForm" method="post">
+        <h3>Create a new Contact</h3>
+        <p>
+            <label for="contactId">Contact Id:</label>
+            <input type="text" name="Id" />
+        </p>
+        <p>
+            <label for="contactName">Contact Name:</label>
+            <input type="text" name="Name" />
+        </p>
+        <input type="button" id="saveContact" value="Save" />
+    </form>
+    <!-- Fin Sección Para el Ejemplo # 3 -->
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        //Para Ejemplo # 2
+        $(function () {
+            $.getJSON('/api/contact', function (contactsJsonPayload) {
+                $(contactsJsonPayload).each(function (i, item) {
+                    $('#contacts').append('<li>' + item.Name + '</li>');
+                });
+            });
+        });
+        //Fin Sección Para Ejemplo # 2
+
+        //Para Ejemplo # 3
+        $('#saveContact').click(function () {
+            $.post("api/contact",
+                  $("#saveContactForm").serialize(),
+                  function (value) {
+                      $('#contacts').append('<li>' + value.Name + '</li>');
+                  },
+                  "json"
+            );
+        });
+        //Fin Sección Para Ejemplo # 3
+    </script>
+}
